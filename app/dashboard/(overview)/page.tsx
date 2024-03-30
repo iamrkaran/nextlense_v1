@@ -1,6 +1,6 @@
-import CardWrapper from '@/app/ui/dashboard/cards';
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
+// import CardWrapper from '@/app/ui/dashboard/cards';
+// import RevenueChart from '@/app/ui/dashboard/revenue-chart';
+// import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import {
@@ -8,14 +8,23 @@ import {
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
+import { auth } from '@/auth';
 
 export default async function Page() {
+  const session = await auth();
+  console.log("session", session);
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Dashboard
       </h1>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <p className="text-sm md:text-base">
+        Welcome to your dashboard,{' '}
+        <span className="font-semibold">John Doe</span>! Here you can view your
+        latest invoices, revenue chart, and more.
+      </p>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
+      {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
         </Suspense>
@@ -27,7 +36,7 @@ export default async function Page() {
         <Suspense fallback={<LatestInvoicesSkeleton />}>
           <LatestInvoices />
         </Suspense>
-      </div>
+      </div> */}
     </main>
   );
 }

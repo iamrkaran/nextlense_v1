@@ -2,7 +2,7 @@ import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
   pages: {
-    signIn: '/login',
+    signIn: '/auth/login',
   },
   providers: [
     // added later in auth.ts since it requires bcrypt which is only compatible with Node.js
@@ -20,5 +20,19 @@ export const authConfig = {
       }
       return true;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+
+    async session({ session, token }: { session: any; token: any }) {
+      if (token) {
+        session.user = token.user;
+      }
+      return session;
+    },
+
   },
 } satisfies NextAuthConfig;
