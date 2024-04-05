@@ -33,6 +33,5 @@ export const authConfig = {
       }
       return session;
     },
-
   },
 } satisfies NextAuthConfig;

@@ -1,12 +1,18 @@
-import SideNav from '@/app/ui/dashboard/sidenav';
+import SideNav from "@/components/nav/SideNav";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
-        <SideNav />
-      </div>
-      <div className="grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    <div className="flex h-screen relative flex-col md:flex-row md:overflow-hidden">
+    <div className="w-20 flex-none lg:w-64 md:border-r">
+      <SideNav />
     </div>
+    <div className="flex-grow mt-12 md:mt-0 flex-1 w-full md:overflow-y-auto sm:p-6 md:p-12 max-w-7xl mx-auto">
+      {children}
+    </div>
+  </div>
   );
 }

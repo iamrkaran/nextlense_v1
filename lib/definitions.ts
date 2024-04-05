@@ -1,81 +1,84 @@
-export type AccessToken = string;
-
 export type User = {
   _id: string;
-  id: string;
   username: string;
   email: string;
-  role: string;
-  profilePicture: string;
-  savedPosts: any[];
-  followers: any[];
-  following: any[];
+  role: UserRole;
+  firstName?: string;
+  lastName?: string;
+  profilePicture?: string;
+  coverPicture?: string;
+  savedPosts: SavedPost[];
+  followers: string[];
+  following: string[];
+  bio?: string;
+  website?: string;
   isDeleted: boolean;
   isOnBoardingComplete: boolean;
   isVerified: boolean;
   isOAuthUser: boolean;
-  accessToken: string;
+  isTwoFactorEnabled?: boolean;
+  accessToken?: AccessToken;
 };
 
-export interface AdapterUser extends User {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
-  profilePicture: string;
-  savedPosts: any[];
-  followers: any[];
-  following: any[];
-  isDeleted: boolean;
-  isOnBoardingComplete: boolean;
-  isVerified: boolean;
-  isOAuthUser: boolean;
-  accessToken: string;
-}
+export type UserRole = 'user' | 'admin';
+export type AccessToken = string;
 
 export type Post = {
   _id: string;
-  title: string;
-  content: string;
+  caption?: string;
   image: string;
-  likes: any[];
-  comments: any[];
-  user: User;
-  createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
+  likes: Like[];
+  comments: Comment[];
+  userId: string;
+  location?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status?: PostStatus;
+};
+
+export type PostStatus = 'PUBLIC' | 'PRIVATE';
+
+export type Like = {
+  _id: string;
+  userId: string;
+  postId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Comment = {
   _id: string;
   content: string;
-  user: User;
-  post: Post;
-  createdAt: string;
-  updatedAt: string;
+  userId: string;
+  postId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
-export type Notification = {
+export type Following = {
   _id: string;
-  user: User;
-  type: string;
-  content: string;
-  isRead: boolean;
-  createdAt: string;
+  followerId: string;
+  followingId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  following: User;
 };
 
 export type Message = {
   _id: string;
-  user: User;
+  sender: User;
+  receiver: User;
   content: string;
-  createdAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Chat = {
   _id: string;
   users: User[];
   messages: Message[];
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type UserState = {
@@ -121,4 +124,12 @@ export type RootState = {
   notification: NotificationState;
   message: MessageState;
   chat: ChatState;
+};
+
+export type SavedPost = {
+  _id: string;
+  userId: string;
+  postId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

@@ -10,7 +10,6 @@ async function loginUser(email: string, password: string): Promise<User> {
     const accessToken = await login(email, password);
     const user = await getUserProfile(accessToken);
     user.accessToken = accessToken;
-    user.id = user._id;
     return user;
   } catch (error) {
     console.error('Failed to fetch user:', error);
@@ -18,7 +17,7 @@ async function loginUser(email: string, password: string): Promise<User> {
   }
 }
 
-export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+export const { handlers: { GET, POST }, auth, signIn, signOut ,} = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
