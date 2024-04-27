@@ -35,15 +35,14 @@ function LikeButton({ post, userId }: { post: Post; userId?: string }) {
 
   return (
     <div className="flex flex-col">
-      <button onClick={handleClick}>
-        <ActionIcon>
-          <Heart
-            className={cn('h-6 w-6', {
-              'fill-red-500 text-red-500': likes.some(predicate),
-            })}
-          />
-        </ActionIcon>
-      </button>
+      <ActionIcon onClick={handleClick}>
+        <Heart
+          className={cn('h-6 w-6', {
+            'fill-red-500 text-red-500': likes.some(predicate),
+          })}
+        />
+      </ActionIcon>
+
       {likes.length > 0 && (
         <p className="text-sm font-bold dark:text-white">
           {likes.length} {likes.length === 1 ? 'like' : 'likes'}

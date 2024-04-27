@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
 import PostView from '@/components/posts/PostView';
-
 import { axiosInstance } from '@/lib/axiosInstance';
 import { Post } from '@/lib/definitions';
 import { notFound } from 'next/navigation';
@@ -30,3 +29,4 @@ async function PostModal({ params: { id } }: Props) {
 }
 
 export default PostModal; 
+

@@ -13,6 +13,8 @@ function UserAvatar({ user, ...avatarProps }: Props) {
   return (
     <Avatar className="relative h-8 w-8" {...avatarProps}>
       <Image
+        priority
+        sizes="100%"
         src={user?.profilePicture || '/images/placeholder.jpg'}
         fill
         alt={`${user?.firstName}'s profile picture`}

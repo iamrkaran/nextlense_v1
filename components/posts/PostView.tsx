@@ -18,7 +18,7 @@ import PostOptions from './PostOptions';
 
 function PostView({ id, post }: { id: string; post: Post }) {
   const pathname = usePathname();
-  const isPostModal = pathname === `/dashboard/p/${id}`;
+  const isPostModal = pathname === `/dashboard/posts/${id}`;
   const router = useRouter();
   const [user, setUser] = useState<User>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,7 +27,8 @@ function PostView({ id, post }: { id: string; post: Post }) {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const { accessToken } = session?.user as { accessToken: string };
+      const user = session?.user as User;
+      const accessToken  = user?.accessToken;
       if (!session?.user) return;
       const res = await axiosInstance.get<User>(
         `/api/user?userId=${post.userId}`,
@@ -63,6 +64,7 @@ function PostView({ id, post }: { id: string; post: Post }) {
             <PostOptions
               post={post}
               className="ml-[50px]  font-extralight text-red-500 dark:text-red-400"
+              currentUser={session?.user as User}
             />
           </DialogHeader>
 
@@ -83,7 +85,9 @@ function PostView({ id, post }: { id: string; post: Post }) {
           </ScrollArea>
 
           <div className="mt-auto hidden border-b p-2.5 px-2 md:block">
-            <PostActions post={post} />
+            <PostActions post={post}
+              currentUser={session?.user as User} 
+            />
             <time className="text-[11px]  font-medium uppercase text-zinc-500">
               {new Date(post.createdAt).toLocaleDateString('en-US', {
                 month: 'long',
@@ -111,6 +115,7 @@ function PostView({ id, post }: { id: string; post: Post }) {
         <PostActions
           post={post}
           className="border-b p-2.5 md:hidden"
+          currentUser={session?.user as User}
         />
         <CommentForm postId={id} className="md:hidden" inputRef={inputRef} />
       </DialogContent>

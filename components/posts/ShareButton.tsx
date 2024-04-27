@@ -9,7 +9,7 @@ function ShareButton({ postId }: { postId: string }) {
     <ActionIcon
       onClick={() => {
         navigator.clipboard.writeText(
-          `${window.location.origin}/dashboard/p/${postId}`
+          `${window.location.origin}/dashboard/posts/${postId}`
         );
         toast("Link copied to clipboard", {
           icon: <Link className={"h-5 w-5"} />,

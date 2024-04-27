@@ -106,12 +106,16 @@ function CreatePage() {
 
             <div className="h-[100px] overflow-hidden rounded-md">
               <AspectRatio ratio={1 / 1} className="relative h-32">
-                <Image
-                  src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
-                  alt="Post preview"
-                  fill
-                  className="rounded-md object-cover"
-                />
+                {selectedFile && (
+                  <Image
+                    priority
+                    src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+                    alt="Post preview"
+                    fill
+                    sizes="100%"
+                    className="rounded-md object-cover"
+                  />
+                )}
               </AspectRatio>
             </div>
           </DialogHeader>

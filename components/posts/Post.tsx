@@ -13,9 +13,12 @@ import Image from 'next/image';
 import { Post as PostType, User } from '@/lib/definitions';
 
 function Post({ post, user }: { post: PostType; user: User }) {
+  const { data: session, status } = useSession();
+  const currentUser = session?.user as User;
   const cachedUser = user;
   if (!cachedUser) return null;
   const { username } = cachedUser;
+  if (status === 'loading') return null;
 
   return (
     <div className="flex flex-col space-y-2.5">
@@ -40,11 +43,13 @@ function Post({ post, user }: { post: PostType; user: User }) {
           </div>
         </div>
 
-        <PostOptions post={post}  />
+        {currentUser && <PostOptions post={post} currentUser={currentUser} />}
       </div>
 
       <Card className="relative h-[450px] w-full overflow-hidden rounded-none sm:rounded-md">
         <Image
+          priority
+          sizes="100%"
           src={post.image}
           alt="Post Image"
           fill
@@ -52,7 +57,11 @@ function Post({ post, user }: { post: PostType; user: User }) {
         />
       </Card>
 
-      <PostActions post={post}  className="px-3 sm:px-0" />
+      <PostActions
+        post={post}
+        className="px-3 sm:px-0"
+        currentUser={currentUser}
+      />
 
       {post.caption && (
         <div className="flex items-center space-x-2 px-3 text-sm font-medium leading-none sm:px-0">
@@ -67,7 +76,7 @@ function Post({ post, user }: { post: PostType; user: User }) {
       {post.comments.length > 0 && (
         <div className="px-3 sm:px-0">
           <p className="text-sm font-semibold text-black dark:text-white">
-            <Link href={`/dashboard/p/${post._id}`}>
+            <Link href={`/dashboard/posts/${post._id}`}>
               {post.comments.length}{' '}
               {post.comments.length === 1 ? 'Comment' : 'Comments'}
             </Link>

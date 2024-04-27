@@ -88,12 +88,12 @@ async function SinglePost({ id }: { id: string }) {
               </HoverCardContent>
             </HoverCard>
 
-            <PostOptions post={post}  />
+            <PostOptions post={post} currentUser={session?.user as User} />
           </div>
 
           {post.comments.length === 0 && (
-            <div className="flex flex-col items-center gap-1.5 flex-1 justify-center">
-              <p className="text-xl lg:text-2xl font-extrabold">
+            <div className="flex flex-1 flex-col items-center justify-center gap-1.5">
+              <p className="text-xl font-extrabold lg:text-2xl">
                 No comments yet.
               </p>
               <p className="text-sm font-medium">Start the conversation.</p>
@@ -101,7 +101,7 @@ async function SinglePost({ id }: { id: string }) {
           )}
 
           {post.comments.length > 0 && (
-            <ScrollArea className="hidden md:inline py-1.5 flex-1">
+            <ScrollArea className="hidden flex-1 py-1.5 md:inline">
               <MiniPost post={post} user={user} />
               {post.comments.map((comment) => (
                 <Comment key={comment._id} comment={comment} />
@@ -110,7 +110,7 @@ async function SinglePost({ id }: { id: string }) {
           )}
 
           <div className="mt-auto hidden border-y p-2.5 px-2 md:block">
-            <PostActions post={post}  />
+            <PostActions post={post} currentUser={session?.user as User} />
             <time className="text-[11px] font-medium uppercase text-zinc-500">
               {new Date(post.createdAt).toLocaleDateString('en-US', {
                 month: 'long',

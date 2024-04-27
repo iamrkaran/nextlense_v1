@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
 import EditPost from '@/components/posts/EditPost';
-
 import { axiosInstance } from '@/lib/axiosInstance';
 import { notFound } from 'next/navigation';
 

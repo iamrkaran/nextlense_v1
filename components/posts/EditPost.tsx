@@ -53,7 +53,7 @@ function EditPost({ id, post }: { id: string; post: Post }) {
       },
     });
 
-    router.push(`/dashboard/p/${id}`);
+    router.push(`/dashboard/posts/${id}`);
   };
 
   if (!mount) return null;

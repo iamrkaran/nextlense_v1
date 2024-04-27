@@ -5,8 +5,10 @@ import PostOptions from "./PostOptions";
 import UserAvatar from "../profile/UserAvatar";
 import { Post as PostType, User } from "@/lib/definitions";
 import Timestamp from "../Timestamp";
+import { useSession } from "next-auth/react";
 
 function MiniPost({ post, user }: { post: PostType , user:User  }) {
+  const { data: session } = useSession();
   const username = user?.username;
   const href = `/dashboard/${username}`;
 
@@ -29,6 +31,7 @@ function MiniPost({ post, user }: { post: PostType , user:User  }) {
           <PostOptions
             post={post}
             className="hidden group-hover:inline"
+            currentUser={session?.user as User}
           />
         </div>
       </div>

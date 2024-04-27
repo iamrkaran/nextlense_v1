@@ -1,3 +1,4 @@
+"use client"
 import { Button, ButtonProps } from "@/components/ui/button";
 
 type Props = Partial<ButtonProps> & {

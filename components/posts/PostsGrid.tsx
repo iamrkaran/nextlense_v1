@@ -16,7 +16,7 @@ function PostsGrid({ posts }: { posts: Post[] }) {
     <div className="grid grid-cols-3 gap-0.5">
       {posts?.map((post) => (
         <Link
-          href={`/dashboard/p/${post._id}`}
+          href={`/dashboard/posts/${post._id}`}
           key={post._id}
           className="group relative col-span-1 flex h-44 items-center justify-center md:h-64 lg:h-80"
         >

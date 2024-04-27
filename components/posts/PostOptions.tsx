@@ -14,22 +14,34 @@ import { useRouter } from 'next/navigation';
 type Props = {
   post: Post;
   className?: string;
+  currentUser: User;
 };
 
-function PostOptions({ post, className }: Props) {
+function PostOptions({ post, className, currentUser }: Props) {
   const router = useRouter();
-  const { data: session } = useSession();
+  const isPostMine = post.userId === currentUser?._id;
+  const { data: session, status } = useSession();
+
   const user = session?.user as User;
-  const isPostMine = post.userId === user._id;
 
   const deletePost = async (formData: FormData) => {
-    const { accessToken } = session?.user as { accessToken: string };
+    const { accessToken } = user;
     const postId = formData.get('id');
     await axiosInstance.delete(`/api/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+  };
+
+  //handleClick function
+
+  const handleClick = async (
+    message: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    toast.success(message);
   };
 
   return (
@@ -76,14 +88,27 @@ function PostOptions({ post, className }: Props) {
           </Link>
         )}
 
-        <form action="" className="postOption border-0">
-          <button className="w-full p-3">Hide like count</button>
+        <form className="postOption border-0">
+          <button
+            onClick={(event) => handleClick('Like count hidden', event)}
+            className="w-full p-3"
+          >
+            Hide like count
+          </button>
         </form>
-        <form action="" className="postOption border-0">
-          <button className="w-full p-3">Hide comments</button>
+        <form className="postOption border-0">
+          <button
+            onClick={(event) => handleClick('Comments hidden', event)}
+            className="w-full p-3"
+          >
+            Hide comments
+          </button>
         </form>
-        <form action="" className="postOption border-0">
-          <button className="w-full bg-red-600 p-3 text-white">
+        <form className="postOption border-0">
+          <button
+            onClick={(event) => handleClick('Post reported', event)}
+            className="w-full bg-red-600 p-3 text-white"
+          >
             Report Post
           </button>
         </form>

@@ -52,21 +52,22 @@ const Explore: React.FC<Props> = ({ accessToken }: Props) => {
   const shuffledPosts = [...posts].sort(() => Math.random() - 0.5);
 
   return (
-    <div className="mb-16">
+    <div className="mb-[6rem] lg:m-0">
       <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
         {shuffledPosts.map((post) => (
           <div
             key={post._id}
             className="overflow-hidden rounded-lg border border-gray-300"
+            onClick={() => router.push(`/dashboard/posts/${post._id}`)}
           >
-            <Image
-              priority
-              width={256}
-              height={256}
-              src={post.image}
-              alt={post?.caption || 'Post image'}
-              className="h-64 w-full object-cover"
-            />
+            <div className="relative h-[256px] w-full lg:max-w-lg">
+              <Image
+                src={post.image}
+                alt={post?.caption || 'Post image'}
+                fill
+                className="object-cover md:rounded-l-md"
+              />
+            </div>
             <div className="p-4">
               <h2 className="mb-2 text-lg font-semibold">{post.caption}</h2>
               <p
@@ -76,7 +77,9 @@ const Explore: React.FC<Props> = ({ accessToken }: Props) => {
                   router.push(`/dashboard/users/${username}`);
                 }}
               >
-                <span>@{userCache[post.userId] || fetchUserData(post.userId)}</span>
+                <span>
+                  @{userCache[post.userId] || fetchUserData(post.userId)}
+                </span>
               </p>
             </div>
           </div>
