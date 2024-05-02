@@ -10,6 +10,4 @@ const axiosInstance = axios.create({
 });
 
 export { axiosInstance };
-// // Usage:
-// const accessToken = await login(email, password);
-// const user = await getUserProfile(accessToken);
+

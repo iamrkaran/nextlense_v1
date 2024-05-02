@@ -14,7 +14,7 @@ function Logo() {
       })}
     >
       <SwitchCamera className="h-6 w-6 shrink-0 lg:hidden" />
-      <p className={`font-semibold text-xl hidden lg:block`}>NextLense v1</p>
+      <p className={`font-semibold text-xl hidden lg:block`}>NextLense</p>
     </Link>
   );
 }

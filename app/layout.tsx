@@ -1,5 +1,4 @@
 import '@/app/ui/global.css';
-import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import AppProvider from '../components/providers/Provider';
 import { Toaster } from 'sonner';
@@ -7,10 +6,10 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Nextlense Dashboard',
-    default: 'Nextlense Dashboard',
+    template: '%s | Nextlense',
+    default: 'Nextlense',
   },
-  description: 'The official Next.js Learn Dashboard built with App Router.',
+  description: 'Nextlense is a Social Media platform ',
   metadataBase: new URL('https://nextlense-v1.vercel.app'),
 };
 export default function RootLayout({
@@ -20,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <AppProvider>
           <ThemeProvider
             attribute="class"

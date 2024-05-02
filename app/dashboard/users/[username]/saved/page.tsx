@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import PostsGrid from '@/components/posts/PostsGrid';
 import { axiosInstance } from '@/lib/axiosInstance';
-import { Post } from '@/lib/definitions';
+import { Post, SavedPost } from '@/lib/definitions';
 
 async function SavedPosts({
   params: { username },
@@ -9,18 +9,32 @@ async function SavedPosts({
   params: { username: string };
 }) {
   const session = await auth();
+
   const { accessToken } = session?.user as { accessToken: string };
-  const fetchSavedPosts = await axiosInstance.get<Post[]>(
-    `/api/posts/saved/user/${username}
-  `,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+
+  // Fetch all saved posts
+  const fetchSavedPosts = await axiosInstance.get<SavedPost[]>(`/api/bookmarks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
+  });
+
+  // Extract post IDs from saved posts
+  const postIds = fetchSavedPosts?.data.map((post) => post.postId);
+
+  // Fetch posts by post IDs
+  const postsByPostId = await Promise.all(
+    postIds.map((postId) =>
+      axiosInstance.get<Post>(`/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    ),
   );
 
-  const posts = fetchSavedPosts?.data;
+  // Extract post data
+  const posts = postsByPostId.map((response) => response.data);
 
   return <PostsGrid posts={posts} />;
 }

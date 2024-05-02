@@ -23,6 +23,10 @@ export type User = {
 export type UserRole = 'user' | 'admin';
 export type AccessToken = string;
 
+//array of objects id
+export type SavedPost = {
+ postId: string;
+};
 export type Post = {
   _id: string;
   caption?: string;
@@ -124,12 +128,4 @@ export type RootState = {
   notification: NotificationState;
   message: MessageState;
   chat: ChatState;
-};
-
-export type SavedPost = {
-  _id: string;
-  userId: string;
-  postId: string;
-  createdAt: Date;
-  updatedAt: Date;
 };

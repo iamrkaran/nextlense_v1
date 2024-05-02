@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { cn } from '@/lib/utils';
 import ActionIcon from '@/components/ActionIcon';
 import { MessageCircle } from 'lucide-react';
@@ -7,6 +7,7 @@ import BookmarkButton from './BookmarkButton';
 import { Post, User } from '@/lib/definitions';
 import LikeButton from './Like';
 import ShareButton from './ShareButton';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   post: Post;
@@ -25,7 +26,7 @@ function PostActions({ post, className, currentUser }: Props) {
         </ActionIcon>
       </Link>
       <ShareButton postId={post._id} />
-      <BookmarkButton post={post} userId={userId} />
+      <BookmarkButton post={post} userId={userId}  />
     </div>
   );
 }
