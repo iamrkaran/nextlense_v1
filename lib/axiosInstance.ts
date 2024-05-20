@@ -1,13 +1,11 @@
-import axios from "axios";
-import { AccessToken, User } from "./definitions";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001",
-  // baseURL: process.env.API_BASE_URL,
+  // baseURL: 'http://localhost:5000',
+  baseURL: process.env.NEXTLENSE_SERVER_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
 export { axiosInstance };
-

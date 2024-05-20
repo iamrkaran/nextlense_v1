@@ -1,5 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
-
+import "next-auth/jwt"
 export const authConfig = {
   pages: {
     signIn: '/auth/login',
@@ -20,7 +20,10 @@ export const authConfig = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user ,trigger, session , account}) {
+      if (trigger === "update"){
+        token.accessToken = session.accessToken;
+      }
       if (user) {
         token.user = user;
       }
@@ -35,3 +38,15 @@ export const authConfig = {
     },
   },
 } satisfies NextAuthConfig;
+
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string
+  }
+}
