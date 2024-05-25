@@ -83,6 +83,11 @@ export type Chat = {
   messages: Message[];
   createdAt: Date;
   updatedAt: Date;
+  isGroup: boolean;
+  name: string;
+  members: User[];
+  groupPhoto: string;
+  
 };
 
 export type UserState = {

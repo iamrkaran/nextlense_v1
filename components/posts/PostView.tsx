@@ -51,7 +51,8 @@ function PostView({ id, post }: { id: string; post: Post }) {
   if (!mount) return null;
 
   return (
-    <Dialog open={isPostModal} onOpenChange={(open) => !open && router.back()}>
+    <Dialog open={isPostModal} onOpenChange={(open) => !open && router.back()}
+    >
       <DialogContent className="flex h-full max-h-[500px] flex-col items-start gap-0 p-0 md:max-w-3xl md:flex-row lg:max-h-[700px] lg:max-w-5xl xl:max-h-[800px] xl:max-w-6xl">
         <div className="flex w-full max-w-md flex-col justify-between md:order-2 md:h-full">
           <DialogHeader className="flex flex-row items-center space-x-2.5 space-y-0 border-b py-4 pl-3.5 pr-6">

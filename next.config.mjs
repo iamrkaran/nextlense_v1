@@ -15,6 +15,7 @@ const nextConfig = {
   env: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     NEXTLENSE_SERVER_URL: process.env.NEXTLENSE_SERVER_URL,
+    NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
   },
 };
 

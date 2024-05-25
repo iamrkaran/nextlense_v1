@@ -5,9 +5,10 @@ import MoreDropdown from './MoreDropdown';
 import ProfileLink from '../profile/ProfileLink';
 import { User } from '@/lib/definitions';
 
+
 async function SideNav() {
   const session = await auth();
-  const user = session?.user as User; 
+  const user = session?.user as User;
 
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
