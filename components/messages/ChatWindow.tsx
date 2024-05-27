@@ -10,6 +10,7 @@ import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 interface Message {
   _id: string;
@@ -32,6 +33,7 @@ const ChatWindow = ({ user }: { user: User }) => {
   const [newMessage, setNewMessage] = useState('');
   const { data: session } = useSession();
   const currentUser = session?.user as User;
+  //select single message
 
   const form = useForm<z.infer<typeof CreateMessage>>({
     resolver: zodResolver(CreateMessage),
@@ -62,7 +64,7 @@ const ChatWindow = ({ user }: { user: User }) => {
     });
 
     const channel = pusher.subscribe(`chat_${user._id}`);
-    channel.bind('new_message', (data: Message) => {
+    channel.bind('client-new_message', (data: Message) => {
       setMessages(
         messages.map((chat) => {
           if (chat._id === data._id) {
@@ -72,14 +74,14 @@ const ChatWindow = ({ user }: { user: User }) => {
             };
           }
           return chat;
-        })
+        }),
       );
     });
 
     return () => {
       pusher.unsubscribe(`chat_${user._id}`);
-    };
-  }, [currentUser.accessToken, user._id, messages]);
+    }
+  }, [currentUser.accessToken, user._id,messages]);
 
   const sendMessage = async (values: z.infer<typeof CreateMessage>) => {
     try {
@@ -106,10 +108,33 @@ const ChatWindow = ({ user }: { user: User }) => {
 
       setNewMessage('');
     } catch (error: any) {
-      return error.response.data;
+    toast.error(error.response?.data.message);
     }
   };
 
+  //Delete Selected Chat /api/chats
+  const deleteSelectedChats = async (chatId: string, messageId: string) => {
+    if (currentUser?.accessToken) {
+      setAuthToken(currentUser.accessToken as string);
+    }
+
+    try {
+      await axiosInstance.delete(`/api/chats/${chatId}/messages/${messageId}`);
+
+      const pusherKey = process.env.NEXT_PUBLIC_PUSHER_APP_KEY as string;
+      const pusher = new Pusher(pusherKey, {
+        cluster: 'ap2',
+      });
+
+      const channel = pusher.subscribe(`chat_${user._id}`);
+      channel.trigger('client-delete_message', {
+        chatId,
+        messageId,
+      });
+    } catch (error) {
+      console.error('Error deleting chats:', error);
+    }
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -135,9 +160,18 @@ const ChatWindow = ({ user }: { user: User }) => {
                     message.senderId === currentUser._id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-300 text-black'
-                  } p-2 rounded-md`}
+                  } rounded-md p-2`}
                 >
+                  {message.senderId === currentUser._id && (
+                    <button
+                      className="rounded-md bg-red-300 p-2"
+                      onClick={() => deleteSelectedChats(chat._id, message._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                   {message.message}
+                  <pre>{JSON.stringify(message, null, 2)}</pre>
                 </div>
               </div>
             ))}

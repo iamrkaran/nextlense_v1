@@ -11,6 +11,7 @@ import Comments from '../comments/Comments';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Post as PostType, User } from '@/lib/definitions';
+import PostCaption from './PostCaption';
 
 function Post({ post, user }: { post: PostType; user: User }) {
   const { data: session, status } = useSession();
@@ -63,14 +64,15 @@ function Post({ post, user }: { post: PostType; user: User }) {
         currentUser={currentUser}
       />
 
-      {post.caption && (
+      {/* {post.caption && (
         <div className="flex items-center space-x-2 px-3 text-sm font-medium leading-none sm:px-0">
           <Link href={`/dashboard/${username}`} className="font-bold">
             {username}
           </Link>
           <p>{post.caption}</p>
         </div>
-      )}
+      )} */}
+      <PostCaption  username={username} caption={post.caption}  />
 
       {/* // Comments */}
       {post.comments.length > 0 && (
