@@ -10,6 +10,8 @@ import { fetchUser } from '@/lib/data';
 function Posts() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState<PostType[]>([]);
+  //reverse the order of the posts
+
   const [userData, setUserData] = useState<Map<string, User>>(new Map());
 
   useEffect(() => {
@@ -22,23 +24,27 @@ function Posts() {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-          setPosts(res.data);
+          // Sort posts in reverse chronological order
+          const sortedPosts = res.data.sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          );
+          setPosts(sortedPosts);
 
           // Create a new map for user data
           const newUserData = new Map<string, User>();
 
           // Fetch user data for each post
-          for (const post of res.data) {
+          for (const post of sortedPosts) {
             if (!newUserData.has(post.userId)) {
               const user = await fetchUser(post.userId, accessToken);
               newUserData.set(post.userId, user);
             }
           }
 
-          // Update state with new user data
           setUserData(newUserData);
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          console.error(error);
         }
       }
     };
@@ -46,9 +52,12 @@ function Posts() {
     fetchPosts();
   }, [session]);
 
+  //reverse the order of the posts
+  const reversePosts = posts.reverse();
+
   return (
     <>
-      {posts.map((post) => (
+      {reversePosts.map((post) => (
         <Post
           key={post._id}
           post={post}
