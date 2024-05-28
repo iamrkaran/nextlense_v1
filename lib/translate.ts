@@ -6,11 +6,8 @@ export const translateText = async (
 ): Promise<string> => {
   // Fetch target language from local storage
   let targetLang; // Declare targetLang outside the if statement
-  const userFromLocal = localStorage.getItem('username');
 
-  if (userFromLocal === username) {
-    targetLang = localStorage.getItem('captionLanguage');
-  }
+  targetLang = localStorage.getItem('captionLanguage');
 
   if (!targetLang) {
     targetLang = 'hi'; // Default to Hindi if no language is set in local storage

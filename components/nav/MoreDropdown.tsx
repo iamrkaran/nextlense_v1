@@ -100,7 +100,7 @@ function MoreDropdown() {
 
             <DropdownMenuItem
               className="menuItem"
-              onClick={() => signOut({ callbackUrl: '/' })}
+              onClick={() => signOut()}
             >
               <LogOut size={20} />
               <p>Log out</p>

@@ -171,7 +171,7 @@ const ChatWindow = ({ user }: { user: User }) => {
                     </button>
                   )}
                   {message.message}
-                  <pre>{JSON.stringify(message, null, 2)}</pre>
+                  {/* <pre>{JSON.stringify(message, null, 2)}</pre> */}
                 </div>
               </div>
             ))}
