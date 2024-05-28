@@ -1,7 +1,21 @@
-
 import axios from 'axios';
 
-export const translateText = async (text: string, targetLang: string = 'hi'): Promise<string> => {
+export const translateText = async (
+  text: string,
+  username: string,
+): Promise<string> => {
+  // Fetch target language from local storage
+  let targetLang; // Declare targetLang outside the if statement
+  const userFromLocal = localStorage.getItem('username');
+
+  if (userFromLocal === username) {
+    targetLang = localStorage.getItem('captionLanguage');
+  }
+
+  if (!targetLang) {
+    targetLang = 'hi'; // Default to Hindi if no language is set in local storage
+  }
+
   const encodedParams = new URLSearchParams();
   encodedParams.set('q', text);
   encodedParams.set('target', targetLang);
@@ -13,7 +27,9 @@ export const translateText = async (text: string, targetLang: string = 'hi'): Pr
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       'Accept-Encoding': 'application/gzip',
-      'X-RapidAPI-Key': process.env.NEXTLENSE_PUBLIC_RAPIDAPI_KEY || "806e8e51fbmshd10d124bfd1947fp1c8d12jsn044e04d49402",
+      'X-RapidAPI-Key':
+        process.env.NEXTLENSE_PUBLIC_RAPIDAPI_KEY ||
+        '806e8e51fbmshd10d124bfd1947fp1c8d12jsn044e04d49402',
       'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com',
     },
     data: encodedParams,

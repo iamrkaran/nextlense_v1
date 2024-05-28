@@ -82,7 +82,10 @@ function MoreDropdown() {
               <Settings size={20} />
               <p>Settings</p>
             </DropdownMenuItem>
-            <DropdownMenuItem className="menuItem"  onClick={() => alert('Coming Soon')}>
+            <DropdownMenuItem
+              className="menuItem"
+              onClick={() => alert('Coming Soon')}
+            >
               <Activity size={20} />
               <p>Your activity</p>
             </DropdownMenuItem>
@@ -95,7 +98,10 @@ function MoreDropdown() {
               <p>Switch appearance</p>
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="menuItem" onClick={() => signOut()}>
+            <DropdownMenuItem
+              className="menuItem"
+              onClick={() => signOut({ callbackUrl: '/' })}
+            >
               <LogOut size={20} />
               <p>Log out</p>
             </DropdownMenuItem>

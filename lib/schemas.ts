@@ -22,6 +22,7 @@ const UserSchema = z.object({
   isOAuthUser: z.boolean(),
   isTwoFactorEnabled: z.boolean().optional(),
   accessToken: z.string().optional(),
+  captionLanguage: z.string().optional(),
 });
 
 const UserUpdateSchema = z.object({
@@ -29,6 +30,7 @@ const UserUpdateSchema = z.object({
   lastName: z.string().optional(),
   bio: z.string().optional(),
   website: z.string().optional(),
+  captionLanguage: z.string().optional(),
 });
 
 const PostStatus = z.enum(['PUBLIC', 'PRIVATE']);

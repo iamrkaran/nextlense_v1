@@ -16,8 +16,8 @@ const PostCaption: React.FC<PostCaptionProps> = ({ username, caption }) => {
     if (caption) {
       setIsTranslating(true);
       try {
-        const translation = await translateText(caption);
-        setTranslatedCaption(translation);
+        const translation = await translateText(caption, username);
+        setTranslatedCaption(translation); // Set translated caption
       } catch (error) {
         console.error('Error translating caption:', error);
       } finally {

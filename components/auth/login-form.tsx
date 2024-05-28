@@ -19,7 +19,9 @@ export default function LoginForm() {
   return (
     <form action={dispatch} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl dark:text-black text-gray-900`}>
+        <h1
+          className={`${lusitana.className} mb-3 text-2xl text-gray-900 dark:text-black`}
+        >
           Please log in to continue.
         </h1>
         <div className="w-full">
@@ -83,7 +85,6 @@ export default function LoginForm() {
 
 function LoginButton() {
   const { pending } = useFormStatus();
-
 
   return (
     <Button

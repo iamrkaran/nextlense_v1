@@ -18,6 +18,7 @@ export type User = {
   isOAuthUser: boolean;
   isTwoFactorEnabled?: boolean;
   accessToken?: AccessToken;
+  captionLanguage?: string;
 };
 
 export type UserRole = 'user' | 'admin';

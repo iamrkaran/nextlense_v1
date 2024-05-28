@@ -10,6 +10,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -25,7 +33,7 @@ import { useSession } from 'next-auth/react';
 import { axiosInstance } from '@/lib/axiosInstance';
 
 function ProfileForm({ profile }: { profile: UserType }) {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const updateProfile = async (values: z.infer<typeof UserUpdateSchema>) => {
     const { accessToken } = session?.user as { accessToken: string };
     try {
@@ -34,6 +42,11 @@ function ProfileForm({ profile }: { profile: UserType }) {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      // console.log(values.captionLanguage);
+      if (values?.captionLanguage) {
+        localStorage.setItem('username', profile.username);
+        localStorage.setItem('captionLanguage', values.captionLanguage);
+      }
       return { message: 'Profile updated successfully' };
     } catch (error) {
       return { message: 'An error occurred' };
@@ -46,6 +59,7 @@ function ProfileForm({ profile }: { profile: UserType }) {
       lastName: profile.lastName || '',
       bio: profile.bio || '',
       website: profile.website || '',
+      captionLanguage: profile.captionLanguage || '',
     },
   });
   const { isDirty, isSubmitting, isValid } = form.formState;
@@ -72,6 +86,7 @@ function ProfileForm({ profile }: { profile: UserType }) {
         <form
           onSubmit={form.handleSubmit(async (values) => {
             const { message } = await updateProfile(values);
+            update({ user: { name: values.captionLanguage } });
             toast(message);
           })}
           className="grid gap-4 py-4"
@@ -147,6 +162,66 @@ function ProfileForm({ profile }: { profile: UserType }) {
                 <FormDescription className="text-xs md:ml-24">
                   {field.value?.length} / 150
                 </FormDescription>
+                <FormMessage className="md:ml-24" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="captionLanguage"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-col gap-x-8 gap-y-2 md:flex-row md:items-center">
+                  <FormLabel className="w-20 font-bold md:text-left">
+                    Language
+                  </FormLabel>
+                  <FormControl>
+                    <Select
+                      // {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue>
+                          {field.value === 'en'
+                            ? 'English'
+                            : field.value === 'hi'
+                              ? 'Hindi'
+                              : field.value === 'fr'
+                                ? 'French'
+                                : field.value === 'es'
+                                  ? 'Spanish'
+                                  : field.value === 'de'
+                                    ? 'German'
+                                    : field.value === 'it'
+                                      ? 'Italian'
+                                      : field.value === 'ru'
+                                        ? 'Russian'
+                                        : field.value === 'ja'
+                                          ? 'Japanese'
+                                          : field.value === 'ko'
+                                            ? 'Korean'
+                                            : field.value === 'zh'
+                                              ? 'Chinese'
+                                              : 'Select a language'}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="hi">Hindi</SelectItem>
+                        <SelectItem value="fr">French</SelectItem>
+                        <SelectItem value="es">Spanish</SelectItem>
+                        <SelectItem value="de">German</SelectItem>
+                        <SelectItem value="it">Italian</SelectItem>
+                        <SelectItem value="ru">Russian</SelectItem>
+                        <SelectItem value="ja">Japanese</SelectItem>
+                        <SelectItem value="ko">Korean</SelectItem>
+                        <SelectItem value="zh">Chinese</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </div>
                 <FormMessage className="md:ml-24" />
               </FormItem>
             )}

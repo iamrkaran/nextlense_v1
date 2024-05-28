@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { axiosInstance } from '@/lib/axiosInstance';
 import { User } from '@/lib/definitions';
+import { getLanguageName } from '@/lib/getLanguageName';
 import { MoreHorizontal, Settings } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
@@ -55,8 +56,8 @@ async function ProfileLayout({ children, params: { username } }: Props) {
     },
   );
 
-  const profile = response.data;
-
+  const profile = response.data; // as User;
+  // console.log(profile);
   const userLogged = session?.user as User;
 
   const isCurrentUser = userLogged?._id === profile?._id;
@@ -151,7 +152,7 @@ async function ProfileLayout({ children, params: { username } }: Props) {
               <div className="text-xl font-bold ">
                 {profile?.firstName && (
                   <>
-                    <Label className='text-xl text-left'>Name </Label>
+                    <Label className="text-left text-xl">Name </Label>
                     <span className="dark:text-green-500 ">
                       {profile?.firstName} {profile.lastName}
                     </span>
@@ -159,11 +160,11 @@ async function ProfileLayout({ children, params: { username } }: Props) {
                 )}
               </div>
               <div className="mt-2 ">
-                <Label className='text-xl text-left'>Email </Label>
+                <Label className="text-left text-xl">Email </Label>
                 <span className="dark:text-green-500">{profile?.email}</span>
               </div>
               <div className="mt-2 ">
-                <Label className='text-xl text-left'>Website </Label>
+                <Label className="text-left text-xl">Website </Label>
                 {profile?.website && (
                   <>
                     <Link
@@ -171,15 +172,25 @@ async function ProfileLayout({ children, params: { username } }: Props) {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <span className="dark:text-green-500 text-blue-700">{profile?.website}</span>
+                      <span className="text-blue-700 dark:text-green-500">
+                        {profile?.website}
+                      </span>
                     </Link>
                   </>
                 )}
               </div>
               <p className="mt-4">
-                <Label className='text-xl text-left'>Bio </Label>
+                <Label className="text-left text-xl">Bio </Label>
                 <span className="dark:text-green-500">{profile?.bio}</span>
               </p>
+              {/* captionLanguage */}
+              <div className="mt-2 ">
+                <Label className="text-left text-xl">Caption Language </Label>
+                <span className="dark:text-green-500">
+                  {profile?.captionLanguage &&
+                    getLanguageName({ value: profile.captionLanguage })}
+                </span>
+              </div>
             </div>
           </div>
         </div>
