@@ -17,17 +17,16 @@ export const translateText = async (
   encodedParams.set('q', text);
   encodedParams.set('target', targetLang);
   encodedParams.set('source', 'en');
+  encodedParams.set('format', 'text');
 
   const options = {
     method: 'POST',
-    url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
+    url: 'https://google-translator9.p.rapidapi.com/v2',
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       'Accept-Encoding': 'application/gzip',
-      'X-RapidAPI-Key':
-        process.env.NEXTLENSE_PUBLIC_RAPIDAPI_KEY ||
-        '806e8e51fbmshd10d124bfd1947fp1c8d12jsn044e04d49402',
-      'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com',
+      'X-RapidAPI-Key': '08f0745ab0mshe19034fceea2319p18cc30jsnf4cc567ff156',
+      'X-RapidAPI-Host': 'google-translator9.p.rapidapi.com'
     },
     data: encodedParams,
   };
